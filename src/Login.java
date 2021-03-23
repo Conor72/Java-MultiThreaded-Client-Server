@@ -100,11 +100,21 @@ public class Login extends JFrame{
 	                    Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/assign2", "root", "password");
 	                    PreparedStatement st = (PreparedStatement) connection
 	                        .prepareStatement("Select USERNAME, PASSWORD from students where USERNAME=? and PASSWORD=?");
+	                   
 
 	                    st.setString(1, USERNAME);
 	                    st.setString(2, PASSWORD);
 	                    ResultSet rs = st.executeQuery();
+	               
+	                    
 	                    if (rs.next()) {
+	                    	Connection connection2 = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/assign2", "root", "password");
+	                    	PreparedStatement st2 = (PreparedStatement) connection2
+			                        .prepareStatement("UPDATE students SET TOT_LOGINS = TOT_LOGINS + 1 WHERE USERNAME= '" + usernameField.getText() + "'");
+	                    	st2.executeUpdate();
+		                    
+	                    	
+	 	                    
 	                    	JOptionPane.showMessageDialog(btnLogin, "Sucessful Login!");
 	                        dispose();
 	                        Client myClient = new Client();
