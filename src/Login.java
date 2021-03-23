@@ -26,7 +26,7 @@ public class Login extends JFrame{
 	public static ResultSet rs;
 	public static String USERNAME="", PASSWORD="";
 	   static Connection con;
-	    static Statement st;
+	   public static Statement st;
 	    
 	    
 	    private static final long serialVersionUID = 1L;
@@ -105,11 +105,12 @@ public class Login extends JFrame{
 	                    st.setString(2, PASSWORD);
 	                    ResultSet rs = st.executeQuery();
 	                    if (rs.next()) {
+	                    	JOptionPane.showMessageDialog(btnLogin, "Sucessful Login!");
 	                        dispose();
-	                      
-	                        //TO-DO Launch Client.java window from here
+	                        Client myClient = new Client();
+	                        myClient.setVisible(true);
 	                        
-	                        JOptionPane.showMessageDialog(btnLogin, "Sucessful Login!");
+	                        
 	                    } else {
 	                        JOptionPane.showMessageDialog(btnLogin, "Incorrect Login Details!");
 	                    }
