@@ -29,15 +29,19 @@ public class Server extends JFrame {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true); // It is necessary to show the frame here!
 
+    
     try {
       // Create a server socket
       ServerSocket serverSocket = new ServerSocket(5056);
       jta.append("Server started at " + new Date() + '\n');
 
+      while (true) {
+      
       // Listen for a connection request
       Socket socket = serverSocket.accept();
       jta.append("A new client is connected : " + socket + "\n"); 
-
+      
+      
    // Create data input and output streams
       DataInputStream inputFromClient = new DataInputStream(
         socket.getInputStream());
@@ -47,7 +51,7 @@ public class Server extends JFrame {
       System.out.println("Assigning new thread for this client"); 
 
       
-      while (true) {
+      
 	        // Receive radius from the client
 	        double radius = inputFromClient.readDouble();
 
