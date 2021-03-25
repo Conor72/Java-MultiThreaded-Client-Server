@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -11,10 +12,10 @@ public class Client extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 // Text field for receiving radius
-  private JTextField jtf = new JTextField();
+  public static JTextField jtf = new JTextField();
 
   // Text area to display contents
-  private JTextArea jta = new JTextArea();
+  public static JTextArea jta = new JTextArea();
 
   // IO streams
   private DataOutputStream toServer;
@@ -44,16 +45,27 @@ public class Client extends JFrame {
     setVisible(true); // It is necessary to show the frame here!
 
     try {
-      // Create a socket to connect to the server
-      Socket socket = new Socket("localhost", 8000);
-      // Socket socket = new Socket("130.254.204.36", 8000);
-      // Socket socket = new Socket("drake.Armstrong.edu", 8000);
+     
+      
 
+      Scanner scn = new Scanner(System.in); 
+		
+		// getting localhost ip 
+		InetAddress ip = InetAddress.getByName("localhost"); 
+
+		// establish the connection with server port 5056 
+		 Socket serverSocket = new Socket(ip, 5056);
+
+		// obtaining input and out streams 
+		//DataInputStream fromServer = new DataInputStream(serverSocket.getInputStream()); 
+		//DataOutputStream toServer = new DataOutputStream(serverSocket.getOutputStream()); 
+		
+		
       // Create an input stream to receive data from the server
-      fromServer = new DataInputStream(socket.getInputStream());
+      fromServer = new DataInputStream(serverSocket.getInputStream());
 
       // Create an output stream to send data to the server
-      toServer = new DataOutputStream(socket.getOutputStream());
+      toServer = new DataOutputStream(serverSocket.getOutputStream());
     }
     catch (IOException ex) {
       jta.append(ex.toString() + '\n');

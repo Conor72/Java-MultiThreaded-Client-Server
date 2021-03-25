@@ -110,7 +110,7 @@ public class Login extends JFrame{
 	                    if (rs.next()) {
 	                    	Connection connection2 = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/assign2", "root", "password");
 	                    	PreparedStatement st2 = (PreparedStatement) connection2
-			                        .prepareStatement("UPDATE students SET TOT_LOGINS = TOT_LOGINS + 1 WHERE USERNAME= '" + usernameField.getText() + "'");
+			                        .prepareStatement("UPDATE students SET TOT_LOGINS = TOT_LOGINS + 1 WHERE USERNAME= '" + usernameField.getText() + "'"); //Update the total logins after successfully signing in
 	                    	st2.executeUpdate();
 		                    
 	                    	
@@ -118,7 +118,7 @@ public class Login extends JFrame{
 	                    	JOptionPane.showMessageDialog(btnLogin, "Sucessful Login!");
 	                        dispose();
 	                        Client myClient = new Client();
-	                        myClient.setVisible(true);
+	                       // myClient.setVisible(true);
 	                        
 	                        
 	                    } else {
