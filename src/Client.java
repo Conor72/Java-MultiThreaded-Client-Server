@@ -16,6 +16,10 @@ public class Client extends JFrame {
 
   // Text area to display contents
   public static JTextArea jta = new JTextArea();
+  
+  public static String USERNAME="";
+  public static String TOT_LOGINS = "";
+  
 
   // IO streams
   private DataOutputStream toServer;
@@ -29,6 +33,7 @@ public class Client extends JFrame {
     // Panel p to hold the label and text field
     JPanel p = new JPanel();
     p.setLayout(new BorderLayout());
+    jta.append("Welcome " + USERNAME + '\n' + "You have logged in a total of " + TOT_LOGINS + " times" + '\n');
     p.add(new JLabel("Enter radius"), BorderLayout.WEST);
     p.add(jtf, BorderLayout.CENTER);
     jtf.setHorizontalAlignment(JTextField.RIGHT);
@@ -56,16 +61,15 @@ public class Client extends JFrame {
 		// establish the connection with server port 5056 
 		 Socket serverSocket = new Socket(ip, 5056);
 
-		// obtaining input and out streams 
-		//DataInputStream fromServer = new DataInputStream(serverSocket.getInputStream()); 
-		//DataOutputStream toServer = new DataOutputStream(serverSocket.getOutputStream()); 
-		
 		
       // Create an input stream to receive data from the server
       fromServer = new DataInputStream(serverSocket.getInputStream());
 
       // Create an output stream to send data to the server
       toServer = new DataOutputStream(serverSocket.getOutputStream());
+      
+      
+      toServer.writeUTF(USERNAME);
     }
     catch (IOException ex) {
       jta.append(ex.toString() + '\n');
@@ -75,6 +79,8 @@ public class Client extends JFrame {
   private class Listener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
+    	
+    	
       try {
         // Get the radius from the text field
         double radius = Double.parseDouble(jtf.getText().trim());

@@ -11,13 +11,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+
 import javax.swing.border.EmptyBorder;
 
 
@@ -25,12 +19,17 @@ public class Login extends JFrame{
 	
 	public static ResultSet rs;
 	public static String USERNAME="", PASSWORD="";
+	public static String TOT_LOGINS = "";
+	public static String loggedInUser = "";
+	
+	
 	   static Connection con;
 	   public static Statement st;
+	   private JTextArea jta = new JTextArea();
 	    
 	    
 	    private static final long serialVersionUID = 1L;
-	    private JTextField usernameField;
+	    public static JTextField usernameField;
 	    private JPasswordField passwordField;
 	    private JButton btnLogin;
 	    private JLabel label;
@@ -99,11 +98,12 @@ public class Login extends JFrame{
 	                try {
 	                    Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/assign2", "root", "password");
 	                    PreparedStatement st = (PreparedStatement) connection
-	                        .prepareStatement("Select USERNAME, PASSWORD from students where USERNAME=? and PASSWORD=?");
+	                        .prepareStatement("Select USERNAME, PASSWORD, TOT_LOGINS from students where USERNAME=? and PASSWORD=?");
 	                   
 
 	                    st.setString(1, USERNAME);
 	                    st.setString(2, PASSWORD);
+	                    jta.append("User  " + USERNAME + " is now logging in"); 
 	                    ResultSet rs = st.executeQuery();
 	               
 	                    
@@ -116,9 +116,17 @@ public class Login extends JFrame{
 	                    	
 	 	                    
 	                    	JOptionPane.showMessageDialog(btnLogin, "Sucessful Login!");
+	                    	
+	                    	  TOT_LOGINS = rs.getString("TOT_LOGINS");
+	                          loggedInUser = rs.getString("USERNAME");
+	                          
+	                          Client.TOT_LOGINS = TOT_LOGINS;
+	  						  Client.USERNAME = loggedInUser;
+	                          
+	                          
 	                        dispose();
 	                        Client myClient = new Client();
-	                       // myClient.setVisible(true);
+	                       myClient.setVisible(true);
 	                        
 	                        
 	                    } else {
@@ -127,6 +135,8 @@ public class Login extends JFrame{
 	                } catch (SQLException sqlException) {
 	                    sqlException.printStackTrace();
 	                }
+	                loggedInUser = USERNAME;
+					System.out.println(loggedInUser);
 	            }
 	        });
 

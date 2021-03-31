@@ -1,5 +1,8 @@
 import java.io.*;
 import java.net.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
@@ -8,13 +11,17 @@ public class Server extends JFrame {
   /**
 	 * 
 	 */
+	
+	String loggedInUser;
 
 	
 	
 	private static final long serialVersionUID = 1L;
 // Text area for displaying contents
   private JTextArea jta = new JTextArea();
-
+  
+  
+  
   public static void main(String[] args) {
     new Server();
   }
@@ -39,7 +46,12 @@ public class Server extends JFrame {
       
       // Listen for a connection request
       Socket socket = serverSocket.accept();
-      jta.append("A new client is connected : " + socket + "\n"); 
+      
+      
+      //Grab username from the Client class
+      DataInputStream fromClient = new DataInputStream(socket.getInputStream());
+      loggedInUser = fromClient.readUTF();
+      jta.append("A new client " + loggedInUser +" is connected : " + socket + "\n"); 
       
       
    // Create data input and output streams
