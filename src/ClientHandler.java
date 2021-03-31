@@ -25,4 +25,24 @@ class ClientHandler extends Thread
 	} 
 
 	
-} 
+
+
+public void run() {
+	
+	try {
+		
+		while(true) {
+			
+			//radius from user
+			double radius = fromServer.readDouble();
+	        // Compute area
+	        double area = radius * radius * Math.PI;
+	        // Send area back to the client
+	        toServer.writeDouble(area);
+
+		}
+	} catch (Exception e) {
+		System.err.println(e + "on" + serverSocket);
+	}	
+}
+}
